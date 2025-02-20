@@ -1,30 +1,35 @@
-import { NextResponse } from "next/server"
-import { openai } from "@ai-sdk/openai"
-import { generateText } from "ai"
+import { NextResponse } from "next/server";
+
+const BACKEND_URL = "http://127.0.0.1:8080/scrape"; // Replace with actual backend URL
 
 export async function POST(req: Request) {
-  const formData = await req.formData()
-  const resume = formData.get("resume") as File
-
-  if (!resume) {
-    return NextResponse.json({ error: "No resume file provided" }, { status: 400 })
-  }
-
-  // Read the file content
-  const fileContent = await resume.text()
-
   try {
-    const { text } = await generateText({
-      model: openai("gpt-4-turbo"),
-      prompt: `Analyze the following resume and provide a brief summary of the candidate's qualifications, skills, and experience. Also, suggest areas for improvement:\n\n${fileContent}`,
-      system:
-        "You are Manthrika, an AI career assistant specializing in resume analysis. Provide concise, helpful feedback on resumes.",
-    })
+    const formData = await req.formData();
+    const resume = formData.get("resume") as File;
 
-    return NextResponse.json({ analysis: text })
+    if (!resume) {
+      return NextResponse.json({ error: "No resume file provided" }, { status: 400 });
+    }
+
+    const buffer = await resume.arrayBuffer();
+    const blob = new Blob([buffer], { type: resume.type });
+
+    const backendFormData = new FormData();
+    backendFormData.append("file", blob, resume.name); // Use 'file' as Flask expects
+
+    const response = await fetch(BACKEND_URL, {
+      method: "POST",
+      body: backendFormData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to process resume");
+    }
+
+    const data = await response.json();
+    return NextResponse.json({ analysis: data.analysis });
   } catch (error) {
-    console.error("Error analyzing resume:", error)
-    return NextResponse.json({ error: "Failed to analyze resume" }, { status: 500 })
+    console.error("Error processing resume:", error);
+    return NextResponse.json({ error: "Failed to analyze resume" }, { status: 500 });
   }
 }
-

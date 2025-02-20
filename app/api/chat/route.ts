@@ -1,26 +1,32 @@
-import { NextResponse } from "next/server"
-import { openai } from "@ai-sdk/openai"
-import { generateText } from "ai"
+import { NextResponse } from "next/server";
+
+const BACKEND_URL = "http://127.0.0.1:8080/api/chat"; // Replace with your actual Python backend URL
 
 export async function POST(req: Request) {
-  const { message } = await req.json()
-
-  if (!message) {
-    return NextResponse.json({ error: "No message provided" }, { status: 400 })
-  }
-
   try {
-    const { text } = await generateText({
-      model: openai("gpt-4-turbo"),
-      prompt: `You are Manthrika, an AI career assistant. Respond to the following message from a user seeking career advice:\n\nUser: ${message}`,
-      system:
-        "You are Manthrika, an AI career assistant. Provide helpful, encouraging, and specific career advice. Be friendly and professional.",
-    })
+    const { message } = await req.json();
 
-    return NextResponse.json({ response: text })
+    if (!message) {
+      return NextResponse.json({ error: "No message provided" }, { status: 400 });
+    }
+
+    // Send request to Python backend
+    const response = await fetch(BACKEND_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch response from backend");
+    }
+
+    const data = await response.json();
+    return NextResponse.json({ response: data.response });
   } catch (error) {
-    console.error("Error in chat:", error)
-    return NextResponse.json({ error: "Failed to process chat message" }, { status: 500 })
+    console.error("Error processing chat:", error);
+    return NextResponse.json({ error: "Failed to process chat message" }, { status: 500 });
   }
 }
-
