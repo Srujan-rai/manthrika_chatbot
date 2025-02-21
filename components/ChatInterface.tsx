@@ -63,7 +63,6 @@ export default function ChatInterface() {
   return (
     <div className="flex flex-col h-full bg-slate-900/50 backdrop-blur-md rounded-lg border border-blue-500/20">
       {/* Header */}
-      <div ref={messagesEndRef} className="h-16" />
 
       <div className="flex items-center justify-between p-4 border-b border-blue-500/20">
         <div className="flex items-center gap-2">
