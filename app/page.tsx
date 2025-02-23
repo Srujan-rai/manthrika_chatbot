@@ -1,10 +1,9 @@
 "use client"
-
 import { useState, useEffect } from "react"
-import IntroPage from "@/components/IntroPage"
-import ChatInterface from "@/components/ChatInterface"
-import { motion, AnimatePresence } from "framer-motion"
-import DynamicBackground from "@/components/DynamicBackground"
+import IntroPage from "../components/IntroPage";
+import ChatInterface from "../components/ChatInterface";
+import { motion, AnimatePresence } from "framer-motion";
+import DynamicBackground from "../components/DynamicBackground";
 
 export default function Home() {
   const [showChat, setShowChat] = useState(false)

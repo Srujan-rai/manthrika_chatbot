@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import ChatMessage from "@/components/ChatMessage"
-import ChatInput from "@/components/ChatInput"
-import FileUploadButton from "@/components/FileUploadButton"
-import { CircuitBoardIcon as Circuit } from "lucide-react"
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import ChatMessage from "../components/ChatMessage";
+import ChatInput from "../components/ChatInput";
+import FileUploadButton from "../components/FileUploadButton";
+import { CircuitBoardIcon as Circuit } from "lucide-react";
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Array<{ role: "user" | "assistant"; content: string }>>([])
