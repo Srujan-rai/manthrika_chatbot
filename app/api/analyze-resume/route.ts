@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://manthrika-8942780515.asia-south1.run.app/scrape";
+const BACKEND_URL = "https://manthrika-8942780515.asia-south1.run.app/scrape";
 
 export async function POST(req: Request) {
   try {
