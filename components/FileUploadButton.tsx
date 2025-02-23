@@ -1,8 +1,4 @@
-"use client"
-
-import type React from "react"
-
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Upload, Brain, Check } from "lucide-react"
 import ProcessorEffect from "./ProcessorEffect"
@@ -17,11 +13,13 @@ export default function FileUploadButton({ onUpload }: FileUploadButtonProps) {
   const [isUploaded, setIsUploaded] = useState(false)
   const [showCircuit, setShowCircuit] = useState(false)
   const [circuitPosition, setCircuitPosition] = useState({ x: 0, y: 0 })
+  
+  // ✅ Create a ref to reset input after each upload
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      // Get the button position for the circuit animation
       const button = document.querySelector("#upload-button")
       if (button) {
         const rect = button.getBoundingClientRect()
@@ -36,6 +34,11 @@ export default function FileUploadButton({ onUpload }: FileUploadButtonProps) {
       onUpload(file)
       setIsUploaded(true)
       setTimeout(() => setIsUploaded(false), 3000)
+
+      // ✅ Reset file input using ref
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""
+      }
     }
   }
 
@@ -78,8 +81,15 @@ export default function FileUploadButton({ onUpload }: FileUploadButtonProps) {
           )}
         </AnimatePresence>
       </label>
-      <input id="file-upload" type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} className="hidden" />
+      {/* ✅ Use ref to reset the input */}
+      <input
+        ref={fileInputRef}
+        id="file-upload"
+        type="file"
+        accept=".pdf,.doc,.docx"
+        onChange={handleFileChange}
+        className="hidden"
+      />
     </motion.div>
   )
 }
-

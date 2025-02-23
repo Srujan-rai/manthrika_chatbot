@@ -63,33 +63,42 @@ export default function ChatInterface() {
   // 🔥 Handle Resume Upload
   const handleFileUpload = async (file: File) => {
     setIsLoading(true);
-    const formData = new FormData();
-    formData.append("resume", file);
-
+  
     try {
+      console.log("Uploading file:", file.name, file.size, file.type);
+  
+      // ✅ Always create fresh FormData
+      const formData = new FormData();
+      formData.append("resume", file);
+  
+      console.log("Sending file to backend...");
+  
       const response = await fetch("/api/analyze-resume", {
         method: "POST",
         body: formData,
       });
-
+  
       if (!response.ok) throw new Error("Failed to analyze resume");
-
+  
       const data = await response.json();
-      setMessages((prev) => [...prev, { role: "assistant", content: data.analysis }]);
+      console.log("File upload successful:", data);
+  
+      // ✅ Extract the message from backend response
+      const assistantMessage = data.data || "Resume processed successfully!";
+  
+      // ✅ Ensure messages update correctly
+      setMessages((prev) => [...prev, { role: "assistant", content: assistantMessage }]);
     } catch (error) {
       console.error("Error analyzing resume:", error);
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content:
-            "Oh no! It seems the magical resume analyzer encountered a mystical error. Could you please try uploading it again?",
-        },
+        { role: "assistant", content: "Oops! Something went wrong. Please try again." },
       ]);
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex flex-col h-full bg-slate-900/50 backdrop-blur-md rounded-lg border border-blue-500/20">
