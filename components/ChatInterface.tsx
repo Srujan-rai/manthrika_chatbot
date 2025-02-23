@@ -67,13 +67,12 @@ export default function ChatInterface() {
     try {
       console.log("Uploading file:", file.name, file.size, file.type);
   
-      // ✅ Always create fresh FormData
       const formData = new FormData();
       formData.append("resume", file);
   
-      console.log("Sending file to backend...");
+      console.log("🚀 Sending file directly to Cloud Run...");
   
-      const response = await fetch("/api/analyze-resume", {
+      const response = await fetch("https://manthrika-8942780515.asia-south1.run.app/scrape", { // 🔥 Bypasses Vercel
         method: "POST",
         body: formData,
       });
@@ -81,15 +80,11 @@ export default function ChatInterface() {
       if (!response.ok) throw new Error("Failed to analyze resume");
   
       const data = await response.json();
-      console.log("File upload successful:", data);
+      console.log("✅ File upload successful:", data);
   
-      // ✅ Extract the message from backend response
-      const assistantMessage = data.data || "Resume processed successfully!";
-  
-      // ✅ Ensure messages update correctly
-      setMessages((prev) => [...prev, { role: "assistant", content: assistantMessage }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: data.data || "Resume processed successfully!" }]);
     } catch (error) {
-      console.error("Error analyzing resume:", error);
+      console.error("❌ Error analyzing resume:", error);
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: "Oops! Something went wrong. Please try again." },
@@ -98,6 +93,7 @@ export default function ChatInterface() {
       setIsLoading(false);
     }
   };
+  
   
 
   return (
