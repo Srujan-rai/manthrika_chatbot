@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_RESUME_URL || "http://127.0.0.1:8080/scrape"; // // Replace with actual backend URL
+const BACKEND_URL =  "https://manthrika-8942780515.asia-south1.run.app/scrape"; // // Replace with actual backend URL
 
 
 console.log("NEXT_PUBLIC_BACKEND_URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
