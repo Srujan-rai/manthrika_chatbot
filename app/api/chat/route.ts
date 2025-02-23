@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = "http://127.0.0.1:8080/api/chat"; // Replace with your actual Python backend URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_CHAT_URL || "http://127.0.0.1:8080/api/chat"; // Replace with your actual Python backend URL
 
 export async function POST(req: Request) {
   try {

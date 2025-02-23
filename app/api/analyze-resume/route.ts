@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = "http://127.0.0.1:8080/scrape"; // Replace with actual backend URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_RESUME_URL || "http://127.0.0.1:8080/scrape"; // Replace with actual backend URL
 
 export async function POST(req: Request) {
   try {
