@@ -4,8 +4,8 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from "../components/ui/button"
+import { Input } from "../components/ui/input"
 import { Upload, FileText, Loader2 } from "lucide-react"
 
 interface ResumeUploadProps {
