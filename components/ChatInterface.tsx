@@ -61,6 +61,7 @@ export default function ChatInterface() {
   };
 
   // 🔥 Handle Resume Upload
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_RESUME_URL || "http://localhost:5000/scrape";
   const handleFileUpload = async (file: File) => {
     setIsLoading(true);
   
@@ -72,7 +73,7 @@ export default function ChatInterface() {
   
       console.log("🚀 Sending file directly to Cloud Run...");
   
-      const response = await fetch("https://manthrika-8942780515.asia-south1.run.app/scrape", { // 🔥 Bypasses Vercel
+      const response = await fetch(BACKEND_URL, { // 🔥 Bypasses Vercel
         method: "POST",
         body: formData,
       });
