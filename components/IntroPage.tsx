@@ -69,24 +69,25 @@ export default function IntroPage({ onChatStart }: IntroPageProps) {
           <Brain size={64} />
         </motion.div>
         <motion.h1
-          className="text-8xl font-bold mb-8 relative"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.1,
-              },
-            },
-          }}
-        >
-          {Array.from("MANTHRIKA").map((letter, index) => (
-            <motion.span key={index} variants={letterVariants} custom={index} className="inline-block">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">{letter}</span>
-            </motion.span>
-          ))}
-        </motion.h1>
+  className="text-[min(8vw,80px)] font-bold mb-8 relative whitespace-nowrap"
+  initial="hidden"
+  animate="visible"
+  variants={{
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }}
+>
+  {Array.from("MANTHRIKA").map((letter, index) => (
+    <motion.span key={index} variants={letterVariants} custom={index} className="inline-block">
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">{letter}</span>
+    </motion.span>
+  ))}
+</motion.h1>
+
       </div>
       <motion.div
         className="relative"

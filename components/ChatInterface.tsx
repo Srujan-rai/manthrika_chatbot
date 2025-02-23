@@ -115,14 +115,17 @@ export default function ChatInterface() {
       </div>
 
       {/* Chat messages container */}
+      {/* Chat messages container */}
       <div
-        ref={chatContainerRef}
-        className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth"
-        style={{
-          scrollbarWidth: "thin",
-          scrollbarColor: "rgba(147, 197, 253, 0.3) transparent",
-        }}
-      >
+  ref={chatContainerRef}
+  className="relative flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-slate-900/50 h-full flex-grow"
+  style={{
+    scrollbarWidth: "thin",
+    scrollbarColor: "rgba(147, 197, 253, 0.3) transparent",
+  }}
+>
+
+
         <AnimatePresence initial={false}>
           {messages.map((message, index) => (
             <motion.div
