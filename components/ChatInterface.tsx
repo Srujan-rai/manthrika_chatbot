@@ -68,7 +68,7 @@ export default function ChatInterface() {
       console.log("Uploading file:", file.name, file.size, file.type);
   
       const formData = new FormData();
-      formData.append("resume", file);
+      formData.append("file", file);
   
       console.log("🚀 Sending file directly to Cloud Run...");
   
